@@ -1,0 +1,26 @@
+server { 
+    listen 80;
+    root <%= @root %>/www;
+    access_log  <%= node['nginx']['log_dir'] %>/localhost.access.log;
+    index index.html;
+
+    location ^~ /gettheapp {
+        proxy_pass https://itunes.apple.com/us/app/sqor/id700913088?ls=1&mt=8;
+    }
+
+    location ^~ /api/ {
+	   proxy_pass <%= @api_url %>/;
+    }
+
+    location ^~ /rest/ {
+        proxy_pass <%= @rest_url %>/;
+    }
+
+    location ^~ /wiki/ {
+        proxy_pass http://s3.amazonaws.com/;
+    }
+
+    location / { 
+	   try_files $uri $uri/ /index.html;
+    }
+}

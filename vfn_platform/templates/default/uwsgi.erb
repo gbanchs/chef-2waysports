@@ -1,0 +1,3 @@
+uwsgi=/usr/bin/uwsgi
+UWSGI_ARGS="--uid uwsgi --gid uwsgi --master --die-on-term"
+export UA_PARSER_YAML="<%= node['vfn_platform']['venv'] %>/lib/python2.6/site-packages/ua_parser-0.3.2-py2.6.egg/data/regexes.yaml"

@@ -1,0 +1,112 @@
+---
+driver_plugin: vagrant
+
+platforms:
+- name: ubuntu-12.04
+  driver_config:
+    box: opscode-ubuntu-12.04
+    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_ubuntu-12.04_provisionerless.box
+    require_chef_omnibus: true
+    customize:
+      memory: 512
+  run_list:
+  - recipe[apt]
+- name: centos-6.4
+  driver_config:
+    box: opscode-centos-6.4
+    box_url: https://opscode-vm.s3.amazonaws.com/vagrant/opscode_centos-6.4_provisionerless.box
+    require_chef_omnibus: true
+    customize:
+      memory: 512
+  run_list:
+  - recipe[yum::epel]
+- name: centos-5.9
+  driver_config:
+    box: opscode-centos-5.9
+    box_url: https://opscode-vm-bento.s3.amazonaws.com/vagrant/opscode_centos-5.9_provisionerless.box
+    require_chef_omnibus: true
+    customize:
+      memory: 512
+  run_list:
+  - recipe[yum::epel]
+suites:
+- name: default
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[riak]
+  attributes: {}
+- name: default13
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[riak]
+  attributes:
+    riak:
+      package:
+        version:
+          minor: 3
+          incremental: 2
+- name: default12
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[riak]
+  attributes:
+    riak:
+      package:
+        version:
+          minor: 2
+          incremental: 1
+- name: enterprise
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[riak]
+  attributes:
+    riak:
+      package:
+        enterprise_key: <%= (ENV["RIAK_ENTERPRISE_KEY"].nil? ? "" : ENV["RIAK_ENTERPRISE_KEY"]) %>
+- name: enterprise13
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[riak]
+  attributes:
+    riak:
+      package:
+        version:
+          minor: 3
+          incremental: 2
+        enterprise_key: <%= (ENV["RIAK_ENTERPRISE_KEY"].nil? ? "" : ENV["RIAK_ENTERPRISE_KEY"]) %>
+- name: enterprise12
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[riak]
+  attributes:
+    riak:
+      package:
+        version:
+          minor: 2
+          incremental: 1
+        enterprise_key: <%= (ENV["RIAK_ENTERPRISE_KEY"].nil? ? "" : ENV["RIAK_ENTERPRISE_KEY"]) %>
+- name: source
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[riak::source]
+  attributes: {}
+- name: source13
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[riak::source]
+  attributes:
+    riak:
+      source:
+        version:
+          minor: 3
+          incremental: 2
+- name: source12
+  run_list:
+  - recipe[minitest-handler]
+  - recipe[riak::source]
+  attributes:
+    riak:
+      source:
+        version:
+          minor: 2
+          incremental: 1

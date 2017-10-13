@@ -1,0 +1,5 @@
+default['emeter']['base_dir'] = '/opt/emeter'
+default['emeter']['git']['url'] = 'git@github.com:Amplify-Social/emeter.git'
+default['emeter']['git']['deploy_tag'] = 'master'
+default['emeter']['url'] = 'http://emeter.sqor.com'
+default['emeter']['rel_dir'] = '/opt/emeter/rel/emeter'

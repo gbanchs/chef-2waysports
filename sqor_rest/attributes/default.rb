@@ -1,0 +1,5 @@
+default['sqor_rest']['base_dir'] = '/opt/sqor_rest'
+default['sqor_rest']['git']['url'] = 'git@github.com:Amplify-Social/sqor_rest.git'
+default['sqor_rest']['git']['deploy_tag'] = 'master'
+default['sqor_rest']['url'] = 'http://api-dev.sqor.com'
+default['sqor_rest']['rel_dir'] = '/opt/sqor_rest/rel/sqor_rest'

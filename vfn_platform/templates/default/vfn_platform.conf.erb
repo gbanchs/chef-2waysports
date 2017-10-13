@@ -1,0 +1,20 @@
+server {
+    listen          80;
+    server_name     <% node['vfn_platform']['server_names'].each do |n| %><%= "#{n}" %> <% end %>;
+
+    charset         utf-8;
+
+    location /monitor.html {
+        root   /usr/share/nginx/html;
+    }
+
+    location /static-entities/ {
+        alias   /var/www/htdocs/static-entities/;
+        autoindex off;
+    }
+
+    location / {
+        uwsgi_pass  unix:///tmp/uwsgi.sock;
+        include     uwsgi_params;
+    }
+}
