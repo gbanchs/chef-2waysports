@@ -96,7 +96,8 @@ when 'debian'
     default['php']['conf_dir']         = '/etc/php/7.0/cli'
     default['php']['src_deps']         = %w(libbz2-dev libc-client2007e-dev libcurl4-gnutls-dev libfreetype6-dev libgmp3-dev libjpeg62-dev libkrb5-dev libmcrypt-dev libpng12-dev libssl-dev pkg-config)
     default['php']['packages']         = %w(php7.0-cgi php7.0 php7.0-dev php7.0-cli php-pear)
-    default['php']['mysql']['package'] = 'php7.0-mysql'
+    # Disabling mysql install on this recipe @gbanchs
+    #default['php']['mysql']['package'] = 'php7.0-mysql'
     default['php']['curl']['package']  = 'php7.0-curl'
     default['php']['apc']['package']   = 'php-apc'
     default['php']['apcu']['package']  = 'php-apcu'
