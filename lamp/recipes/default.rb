@@ -121,65 +121,41 @@ script "install_lamp" do
     
     # Install Redis
     # We will need to compile redis from its source. Thus need to install other two packages
-    apt-get install build-essential
-    apt-get install tcl8.5
-    
-    cd /usr/local/bin
-    wget http://download.redis.io/releases/redis-3.2.0.tar.gz
-    tar xzf redis-3.2.0.tar.gz
-    cd redis-3.2.0
-    make
-    make test
-    make install
-    cd utils
-    ./install_server.sh
-    logger "Redis Server Installed Successfully!"
+    #apt-get install build-essential
+    #apt-get install tcl8.5
+    #
+    #cd /usr/local/bin
+    #wget http://download.redis.io/releases/redis-3.2.0.tar.gz
+    #tar xzf redis-3.2.0.tar.gz
+    #cd redis-3.2.0
+    #make
+    #make test
+    #make install
+    #cd utils
+    #./install_server.sh
+    #logger "Redis Server Installed Successfully!"
     # To Start/Stop Server
     # service redis_6379 start
     # service redis_6379 stop
-    logger "Disable Redis to listen 127.0.0.1 for security purposes."
-    nano /etc/redis/6379.conf
+    #logger "Disable Redis to listen 127.0.0.1 for security purposes."
+    #nano /etc/redis/6379.conf
     
-    update-rc.d redis_6379 defaults
-    logger "Redis Server Set to Start at boot!"
+    #update-rc.d redis_6379 defaults
+    #logger "Redis Server Set to Start at boot!"
     
     # Install GIT
     apt-get install git
     logger "Git Installed Successfully!"
-    git config --global user.name "Your Name"
-    git config --global user.email "youremail@domain.com"
+    git config --global user.name "gbanchs"
+    git config --global user.email "gabanchsra31@hotmail.com
     
     # Install Composer
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
     logger "Composer Installed Successfully!"
     
-    # Install Supervisord
-    # https://www.digitalocean.com/community/tutorials/how-to-install-and-manage-supervisor-on-ubuntu-and-debian-vps
-    apt-get install supervisor
-    service supervisor restart
-    # Can add the superviser configs to /etc/supervisor/conf.d
-    # supervisorctl reread
-    # supervisorctl update
+
     
-    # ==================================================
-    # Attach a new HDD and mount it to var/www
-    # ==================================================
-    lshw -C disk
-    fdisk /dev/sdc
-    # Default inputs sequence
-    # n = new partition
-    #    p = primary
-    # w = write to partition table & exit
-    # p = view partitions
-    # Format disk
-    mkfs -t ext3 /dev/sdc1
-    # Mount disk
-    mount /dev/sdc1 /var/www/folder
-    # Automatic mount at startup, Add this line to file
-    # nano -Bw /etc/fstab
-    # /dev/sdc1   /var/www/folder   ext3    defaults     0        2
-    # Change owner of disk
-    chown -R root:root /var/www/folder
+
     
     
     # ==================================================
@@ -193,20 +169,20 @@ script "install_lamp" do
     # ==================================================
     
     # Downloading Script to Create Virutal Hosts
-    cd /usr/local/bin
-    wget -O virtualhost https://raw.githubusercontent.com/RoverWire/virtualhost/master/virtualhost.sh
-    chmod +x virtualhost
+    #cd /usr/local/bin
+    #wget -O virtualhost https://raw.githubusercontent.com/RoverWire/virtualhost/master/virtualhost.sh
+    #chmod +x virtualhost
     
     # Set Virtual Host Name
-    virtualhost create mysite.dev
-    systemctl restart apache2
+    #virtualhost create mysite.dev
+    #systemctl restart apache2
     
     # Git Clone your Site
-    git clone https://github.com/git/git.git /var/www/mysite.dev
+    #git clone https://github.com/git/git.git /var/www/mysite.dev
     
     # Composer Update
-    cd /var/www/mysite.dev
-    composer install
+    #cd /var/www/mysite.dev
+    #composer install
     
     
     # ==================================================
