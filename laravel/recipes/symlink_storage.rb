@@ -1,4 +1,4 @@
-node[:deploy].each do |application, deploy|
+node["deploy"].each do |application, deploy|
   script "symlink_storage" do
     interpreter "bash"
     user "root"
