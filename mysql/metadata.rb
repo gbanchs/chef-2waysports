@@ -1,22 +1,10 @@
-name 'lamp'
-maintainer 'The Authors'
-maintainer_email 'info@gbanchs.com'
-license 'All Rights Reserved'
-description 'Installs/Configures lamp'
-long_description 'Installs/Configures lamp'
-version '0.1.0'
-chef_version '>= 12.1' if respond_to?(:chef_version)
+name        "mysql"
+description "Installs and configures MySQL"
+maintainer  "AWS OpsWorks"
+license     "Apache 2.0"
+version     "1.0.0"
 
-# The `issues_url` points to the location where issues for this cookbook are
-# tracked.  A `View Issues` link will be displayed on this cookbook's page when
-# uploaded to a Supermarket.
-#
-# issues_url 'https://github.com/<insert_org_here>/lamp/issues'
+depends "opsworks_commons"
 
-# The `source_url` points to the development repository for this cookbook.  A
-# `View Source` link will be displayed on this cookbook's page when uploaded to
-# a Supermarket.
-#
-# source_url 'gbanchs@bitbucket.org:gbanchs/2waysports-recipes.git'
-
-depends 'mysql', '~> 8.0'
+recipe "mysql::client", "Installs MySQL"
+recipe "mysql::server", "Installs MySQL"
