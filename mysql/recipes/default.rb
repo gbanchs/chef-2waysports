@@ -9,6 +9,19 @@ link "/etc/localtime" do
  to "/usr/share/zoneinfo/America/Los_Angeles"
  end
 
+#make update
+execute "apt-get update" do
+  user "root"
+end
+
+def mysqld_initialize_cmd
+   cmd = mysqld_bin
+   cmd << " --defaults-file=#{etc_dir}/my.cnf"
+   cmd << ' --initialize'
+   cmd << ' --explicit_defaults_for_timestamp' if v56plus
+   return "scl enable #{scl_name} \"#{cmd}\"" if scl_package?
+   cmd
+ end
 
   apt_repository 'ubuntu-multiverse' do
     uri          'http://archive.ubuntu.com/ubuntu'
