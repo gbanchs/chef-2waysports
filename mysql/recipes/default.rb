@@ -9,10 +9,7 @@ link "/etc/localtime" do
  to "/usr/share/zoneinfo/America/Los_Angeles"
  end
 
-#make update
-execute "apt-get update" do
-  user "root"
-end
+
 
 def mysqld_initialize_cmd
    cmd = mysqld_bin
