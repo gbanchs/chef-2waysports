@@ -1,4 +1,4 @@
-node[:deploy].all do |application, deploy|
+node["deploy"].each do |application, deploy|
   template "#{deploy[:deploy_to]}/current/.env" do
     source ".env.erb"
     mode 0755
