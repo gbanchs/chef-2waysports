@@ -1,13 +1,5 @@
-<<<<<<< HEAD
-if node[:opsworks][:layers].has_key?('db-master') || (node[:opsworks][:stack][:rds_instances].any?{|rds_instance| rds_instance[:engine] == 'mysql'})
-  Chef::Log.info 'Detected a db-master layer or at least one MySQL RDS DB instance - making sure the MySQL client is installed'
-  include_recipe 'mysql::client_install'
-else
-  Chef::Log.info 'No db-master layer or MySQL RDS DB instance found. Skipping MySQL client package installation.'
-=======
-#
-# Cookbook Name:: mysql
-# Recipe:: client
+# Mysql Cookbook
+# mysql::server_deprecated
 #
 # Copyright 2008-2013, Chef Software, Inc.
 #
@@ -24,6 +16,8 @@ else
 # limitations under the License.
 #
 
-mysql_client 'default' do
-  action :create
+mysql_service node['mysql']['service_name'] do
+  port node['mysql']['port']
+  data_dir node['mysql']['data_dir']
+  template_source 'deprecated/my.cnf.erb'
 end
