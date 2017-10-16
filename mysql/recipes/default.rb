@@ -10,8 +10,6 @@ link "/etc/localtime" do
  end
 
 
-apt-get update
-
   apt_repository 'ubuntu-multiverse' do
     uri          'http://archive.ubuntu.com/ubuntu'
     distribution 'trusty'
