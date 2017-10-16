@@ -1,23 +1,20 @@
 name 'mysql'
-maintainer 'Chef Software, Inc.'
-maintainer_email 'cookbooks@chef.io'
-license 'Apache-2.0'
-description 'Provides mysql_service, mysql_config, and mysql_client resources'
-version '8.5.1'
+maintainer 'The Authors'
+maintainer_email 'you@example.com'
+license 'All Rights Reserved'
+description 'Installs/Configures mysql'
+long_description 'Installs/Configures mysql'
+version '0.1.0'
+chef_version '>= 12.1' if respond_to?(:chef_version)
 
-%w(redhat centos scientific oracle).each do |el|
-  supports el, '>= 6.0'
-end
+# The `issues_url` points to the location where issues for this cookbook are
+# tracked.  A `View Issues` link will be displayed on this cookbook's page when
+# uploaded to a Supermarket.
+#
+# issues_url 'https://github.com/<insert_org_here>/mysql/issues'
 
-supports 'amazon'
-supports 'fedora'
-supports 'debian', '>= 7.0'
-supports 'ubuntu', '>= 12.04'
-
-supports 'opensuse', '>= 13.0'
-supports 'opensuseleap'
-supports 'suse', '>= 12.0'
-
-source_url 'https://github.com/chef-cookbooks/mysql'
-issues_url 'https://github.com/chef-cookbooks/mysql/issues'
-chef_version '>= 12.7' if respond_to?(:chef_version)
+# The `source_url` points to the development repository for this cookbook.  A
+# `View Source` link will be displayed on this cookbook's page when uploaded to
+# a Supermarket.
+#
+# source_url 'https://github.com/<insert_org_here>/mysql'
