@@ -18,3 +18,5 @@ chef_version '>= 12.1' if respond_to?(:chef_version)
 # a Supermarket.
 #
 # source_url 'gbanchs@bitbucket.org:gbanchs/2waysports-recipes.git'
+
+depends 'mysql', '~> 8.0'
