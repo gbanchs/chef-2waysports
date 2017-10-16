@@ -19,4 +19,5 @@
 
 mysql_client 'default' do
   action :create
+  package_version '' 
 end
