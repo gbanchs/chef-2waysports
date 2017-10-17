@@ -1,4 +1,4 @@
-name "php"
+name "laravel"
 maintainer "Dwight Watson"
 maintainer_email "dwight@studiousapp.com"
 license "MIT"
