@@ -1,0 +1,195 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+  require_chef_omnibus: 12
+
+# Uncomment the following verifier to leverage Inspec instead of Busser (the
+# default verifier)
+# verifier:
+#   name: inspec
+
+platforms:
+  - name: ubuntu-16.04
+
+suites:
+  - name: default
+    data_bags_path: "test/integration/data_bags/default"
+    run_list:
+      - recipe[opsworks_ruby::setup]
+      - recipe[opsworks_ruby::deploy]
+    # no attributes at all, to prove that cookbook can work "out of the box"
+    attributes:
+  - name: all_options
+    data_bags_path: "test/integration/data_bags/default"
+    run_list:
+      - recipe[opsworks_ruby::setup]
+      - recipe[opsworks_ruby::deploy]
+    attributes:
+      deploy:
+        dummy_project:
+          global:
+            environment: "staging"
+          database:
+            reaping_frequency: 10
+          framework:
+            envs_in_console: true
+            assets_precompile: false
+          appserver:
+            application_yml: true
+            dot_env: true
+            timeout: 120
+            worker_processes: 10
+            log_requests: true
+          webserver:
+            dhparams: |
+              -----BEGIN DH PARAMETERS-----
+              MEYCQQDaYxpaoXcGqR9AiGLCNR2iRs1CzEMvetbqEfKgXUzplylWglfqbPoDLcef
+              IEm9LTZYRszYrC3l3StpAG0VI35rAgEC
+              -----END DH PARAMETERS-----
+            ssl_for_legacy_browsers: true
+            client_max_body_size: "128m"
+            extra_config: "location /ok { return 201; }"
+            extra_config_ssl: true
+          worker:
+            adapter: "sidekiq"
+            config:
+              concurency: 5
+              verbose: true
+              queues:
+                - default
+                - mailers
+  - name: unicorn_apache_hanami_resque
+    data_bags_path: "test/integration/data_bags/unicorn_apache_hanami_resque"
+    run_list:
+      - recipe[opsworks_ruby::setup]
+      - recipe[opsworks_ruby::deploy]
+    attributes:
+      deploy:
+        dummy_project:
+          framework:
+            adapter: 'hanami'
+          appserver:
+            adapter: 'unicorn'
+            backlog: 2048
+            tries: 10
+          webserver:
+            adapter: 'apache2'
+            dhparams: |
+              -----BEGIN DH PARAMETERS-----
+              MEYCQQDaYxpaoXcGqR9AiGLCNR2iRs1CzEMvetbqEfKgXUzplylWglfqbPoDLcef
+              IEm9LTZYRszYrC3l3StpAG0VI35rAgEC
+              -----END DH PARAMETERS-----
+            limit_request_body: 134217728
+            extra_config: "# lorem ipsum dolor sit amet"
+            extra_config_ssl: true
+          worker:
+            adapter: 'resque'
+            workers: 3
+            queues:
+              - default
+              - mailers
+  - name: thin_nginx_padrino_delayed_job
+    data_bags_path: "test/integration/data_bags/thin_nginx_padrino_delayed_job"
+    run_list:
+      - recipe[opsworks_ruby::setup]
+      - recipe[opsworks_ruby::deploy]
+    attributes:
+      deploy:
+        dummy_project:
+          framework:
+            adapter: 'padrino'
+          appserver:
+            adapter: 'thin'
+            max_connections: 4096
+            max_persistent_connections: 2048
+          worker:
+            adapter: 'delayed_job'
+            queues:
+              - default
+              - mailers
+  - name: nullified
+    data_bags_path: "test/integration/data_bags/nullified"
+    run_list:
+      - recipe[opsworks_ruby::setup]
+      - recipe[opsworks_ruby::deploy]
+    attributes:
+      deploy:
+        dummy_project:
+          framework:
+            adapter: 'null'
+          appserver:
+            adapter: 'null'
+          webserver:
+            adapter: 'null'
+  - name: maximum_override
+    data_bags_path: "test/integration/data_bags/maximum_override"
+    run_list:
+      - recipe[opsworks_ruby::setup]
+      - recipe[opsworks_ruby::deploy]
+    attributes:
+      defaults:
+        global:
+          logrotate_template_owner: 'deploy'
+          logrotate_template_group: 'root'
+          logrotate_rotate: 75
+        framework:
+          logrotate_options:
+            - missingok
+            - notifempty
+            - copytruncate
+            - sharedscripts
+          logrotate_template_group: 'www-data'
+        webserver:
+          logrotate_options:
+            - missingok
+            - notifempty
+            - copytruncate
+      deploy:
+        other_project:
+          appserver:
+            adapter: 'passenger'
+            mount_point: '/some/mount/point'
+            max_pool_size: 3
+            min_instances: 2
+          database:
+            adapter: 'null'
+          framework:
+            adapter: 'rails'
+            assets_precompilation_command: '/bin/true'
+            logrotate_name: 'dumber-app-logrotate'
+            logrotate_frequency: 'weekly'
+            logrotate_template_mode: '0750'
+          global:
+            logrotate_name: 'this-will-be-ignored'
+            logrotate_frequency: 'monthly'
+            logrotate_log_paths:
+              - /this/will/be/ignored1.log
+          webserver:
+            adapter: 'apache2'
+            logrotate_log_paths:
+              - /tmp/log1.log
+              - /tmp/log2.log
+            logrotate_options:
+              - missingok
+              - notifempty
+            logrotate_rotate: 15
+            logrotate_template_owner: 'root'
+            port: 8080
+            ssl_port: 8443
+        yet_another_project:
+          appserver:
+            adapter: 'unicorn'
+          database:
+            adapter: 'null'
+          framework:
+            adapter: 'rails'
+            assets_precompilation_command: '/bin/true'
+            logrotate_name: 'dumberer-app-logrotate'
+          webserver:
+            adapter: 'apache2'
+            port: 8081
+      'ruby-ng':
+        ruby_version: '2.3'
